@@ -1,0 +1,95 @@
+{
+    "terminal.integrated.fontSize": 15,
+    "security.workspace.trust.untrustedFiles": "open",
+    "editor.minimap.enabled": false,
+    // "gnuGlobal.completion": "Disabled",
+    // "gnuGlobal.autoUpdate": "Disabled",
+    // "gnuGlobal.encoding": "utf-8",
+    // "gnuGlobal.globalExecutable": "/usr/local/bin/global",
+    // "gnuGlobal.gtagsExecutable": "/usr/local/bin/gtags",
+    "editor.fontSize": 16,
+    "window.zoomLevel": 0.5,
+    // "RainbowBrackets.depreciation-notice": false,
+    "outline.showVariables": false,
+    "workbench.editor.enablePreview": false,
+    "workbench.settings.applyToAllProfiles": [
+        "editor.stickyScroll.maxLineCount"
+    ],
+    "editor.stickyTabStops": true,
+    "editor.stickyScroll.maxLineCount": 7,
+    "editor.stickyScroll.defaultModel": "foldingProviderModel",
+    "window.title": "${dirty}${activeEditorLong}${separator}${profileName}",
+    "cmake.pinnedCommands": [
+        "workbench.action.tasks.configureTaskRunner",
+        "workbench.action.tasks.runTask"
+    ],
+    "editor.fontFamily": "JetBrains Mono, 'Droid Sans Mono', 'monospace', monospace",
+    "cmake.showOptionsMovedNotification": false,
+    "workbench.editor.tabSizing": "shrink",
+    "git.openRepositoryInParentFolders": "never",
+    "cmake.showConfigureWithDebuggerNotification": false,
+    "typescript.referencesCodeLens.enabled": true,
+    "editor.codeLensFontFamily": "JetBrains Mono",
+    "vim.useCtrlKeys": false,
+    "vim.handleKeys": {
+        "<C-a>": false,
+        "<C-b>": false,
+        "<C-c>": false,
+        "<C-d>": false,
+        "<C-e>": false,
+        "<C-f>": false,
+        "<C-g>": false,
+        "<C-h>": false,
+        "<C-i>": false,
+        "<C-j>": false,
+        "<C-k>": false,
+        "<C-l>": false,
+        "<C-m>": false,
+        "<C-n>": false,
+        "<C-o>": false,
+        "<C-p>": false,
+        "<C-q>": false,
+        "<C-r>": false,
+        "<C-s>": false,
+        "<C-t>": false,
+        "<C-u>": false,
+        "<C-v>": false,
+        "<C-w>": false,
+        "<C-x>": false,
+        "<C-y>": false,
+        "<C-z>": false
+    },
+    "settingsSync.ignoredExtensions": [
+        "tht13.html-preview-vscode"
+    ],
+    "workbench.colorTheme": "Visual Studio 2017 Dark - C++",
+    "extensions.ignoreRecommendations": true,
+    "explorer.confirmDelete": false,
+    "terminal.integrated.focusAfterRun": "terminal",
+    "C_Cpp.default.intelliSenseMode": "clang-x64",
+    "C_Cpp.default.cppStandard": "c++17",
+    "C_Cpp.default.cStandard": "c17",
+    "gitlens.advanced.messages": {
+        "suppressGitMissingWarning": true
+    },
+    "cmake.additionalCompilerSearchDirs": [
+        "C:/msys64/mingw32/bin",
+        "C:/msys64/mingw64/bin",
+        "C:/msys64/clang32/bin",
+        "C:/msys64/clang64/bin",
+        "C:/msys64/clangarm64/bin",
+        "C:/msys64/ucrt64/bin"
+    ],
+    "explorer.confirmDragAndDrop": false,
+    "[cpp]": {
+        "editor.defaultFormatter": "ms-vscode.cpptools"
+    },
+
+    "editor.rulers":[{
+        "column" : 120,
+        "color" : "#800000",
+        }
+    ],
+    "git.autofetch": true,
+    "files.autoSave": "afterDelay",
+}

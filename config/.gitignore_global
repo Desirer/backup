@@ -1,0 +1,9 @@
+# ignore all .DS_Store file
+.DS_Store
+
+# ignore all pycache dir
+__pycache__/
+
+# ignore all file in .idea file
+.idea/
+
