@@ -1,0 +1,128 @@
+<svg viewBox="0 0 680 750" width="100%" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>RoPE 完整流程：形状、角度计算与配对</title>
+  <desc>从输入q k到softmax的完整流程，突出形状变化、角度计算方式和attention中的角度配对</desc>
+  <defs>
+    <marker id="arrowM" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <text x="40" y="30" font-size="14" font-weight="500" fill="#26215C">RoPE 在 attention 里的完整流程（q shape [B, N, S, D]）</text>
+
+  <g>
+    <rect x="190" y="42" width="300" height="48" rx="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+    <text x="340" y="60" text-anchor="middle" font-size="13" font-weight="500" fill="#0C447C">① 输入 q、k</text>
+    <text x="340" y="80" text-anchor="middle" font-size="12" font-weight="500" fill="#0C447C">shape (B, N, S, D) = (2, 2, 3, 4)</text>
+  </g>
+
+  <line x1="340" y1="90" x2="340" y2="106" stroke="#888780" stroke-width="1.5" marker-end="url(#arrowM)"/>
+
+  <g>
+    <rect x="70" y="110" width="540" height="64" rx="10" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+    <text x="340" y="130" text-anchor="middle" font-size="13" font-weight="500" fill="#412402">② 角度怎么算：ωᵢ = 10000^(−2i/D)，θ = m·ωᵢ</text>
+    <text x="340" y="150" text-anchor="middle" font-size="12" fill="#633806">m=0→(0, 0)　m=1→(1, 0.01)　m=2→(2, 0.02)</text>
+    <text x="340" y="167" text-anchor="middle" font-size="12" font-weight="500" fill="#412402">cos/sin 表 shape (S, D/2) → 广播 (1,1,S,D/2)，B、N 共享</text>
+  </g>
+
+  <line x1="340" y1="174" x2="340" y2="190" stroke="#888780" stroke-width="1.5" marker-end="url(#arrowM)"/>
+
+  <g>
+    <rect x="40" y="194" width="600" height="280" rx="14" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+    <text x="60" y="216" font-size="13" font-weight="500" fill="#085041">③ 按位置旋转：D 维内部两两配对（以位置 m=1 为例）</text>
+
+    <rect x="208" y="226" width="60" height="34" rx="5" fill="#FFFFFF" stroke="#0F6E56" stroke-width="0.5"/>
+    <rect x="276" y="226" width="60" height="34" rx="5" fill="#FFFFFF" stroke="#0F6E56" stroke-width="0.5"/>
+    <rect x="344" y="226" width="60" height="34" rx="5" fill="#FFFFFF" stroke="#0F6E56" stroke-width="0.5"/>
+    <rect x="412" y="226" width="60" height="34" rx="5" fill="#FFFFFF" stroke="#0F6E56" stroke-width="0.5"/>
+    <text x="238" y="248" text-anchor="middle" font-size="13" font-weight="500" fill="#085041">1</text>
+    <text x="306" y="248" text-anchor="middle" font-size="13" font-weight="500" fill="#085041">2</text>
+    <text x="374" y="248" text-anchor="middle" font-size="13" font-weight="500" fill="#085041">3</text>
+    <text x="442" y="248" text-anchor="middle" font-size="13" font-weight="500" fill="#085041">4</text>
+    <text x="238" y="274" text-anchor="middle" font-size="12" fill="#085041">x0</text>
+    <text x="306" y="274" text-anchor="middle" font-size="12" fill="#085041">x1</text>
+    <text x="374" y="274" text-anchor="middle" font-size="12" fill="#085041">x2</text>
+    <text x="442" y="274" text-anchor="middle" font-size="12" fill="#085041">x3</text>
+
+    <text x="340" y="292" text-anchor="middle" font-size="12" fill="#444441">对半拆：前半 [x0,x1] = [1,2]，后半 [x2,x3] = [3,4]，跨半配对</text>
+
+    <line x1="238" y1="278" x2="140" y2="304" stroke="#888780" stroke-width="1" marker-end="url(#arrowM)"/>
+    <line x1="374" y1="278" x2="230" y2="304" stroke="#888780" stroke-width="1" marker-end="url(#arrowM)"/>
+    <line x1="306" y1="278" x2="450" y2="304" stroke="#888780" stroke-width="1" marker-end="url(#arrowM)"/>
+    <line x1="442" y1="278" x2="530" y2="304" stroke="#888780" stroke-width="1" marker-end="url(#arrowM)"/>
+
+    <rect x="60" y="308" width="240" height="44" rx="8" fill="#FFFFFF" stroke="#0F6E56" stroke-width="0.5"/>
+    <text x="180" y="326" text-anchor="middle" font-size="12" font-weight="500" fill="#085041">第 0 对 (x0,x2) = (1,3) 快钟</text>
+    <text x="180" y="344" text-anchor="middle" font-size="12" fill="#0F6E56">θ0 = 1×1 = 1</text>
+
+    <rect x="380" y="308" width="240" height="44" rx="8" fill="#FFFFFF" stroke="#185FA5" stroke-width="0.5"/>
+    <text x="500" y="326" text-anchor="middle" font-size="12" font-weight="500" fill="#0C447C">第 1 对 (x1,x3) = (2,4) 慢钟</text>
+    <text x="500" y="344" text-anchor="middle" font-size="12" fill="#185FA5">θ1 = 1×0.01 = 0.01</text>
+
+    <line x1="180" y1="352" x2="260" y2="372" stroke="#888780" stroke-width="1" marker-end="url(#arrowM)"/>
+    <line x1="500" y1="352" x2="420" y2="372" stroke="#888780" stroke-width="1" marker-end="url(#arrowM)"/>
+
+    <rect x="90" y="376" width="500" height="40" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+    <text x="340" y="393" text-anchor="middle" font-size="12" font-weight="500" fill="#412402">新a = a·cosθ − b·sinθ　　新b = a·sinθ + b·cosθ</text>
+    <text x="340" y="410" text-anchor="middle" font-size="12" fill="#633806">第0对→(−1.9841, 2.4624)　第1对→(1.9599, 4.0198)</text>
+
+    <rect x="208" y="424" width="60" height="32" rx="5" fill="#FFFFFF" stroke="#0F6E56" stroke-width="0.5"/>
+    <rect x="276" y="424" width="60" height="32" rx="5" fill="#FFFFFF" stroke="#185FA5" stroke-width="0.5"/>
+    <rect x="344" y="424" width="60" height="32" rx="5" fill="#FFFFFF" stroke="#0F6E56" stroke-width="0.5"/>
+    <rect x="412" y="424" width="60" height="32" rx="5" fill="#FFFFFF" stroke="#185FA5" stroke-width="0.5"/>
+    <text x="238" y="445" text-anchor="middle" font-size="11" font-weight="500" fill="#085041">−1.9841</text>
+    <text x="306" y="445" text-anchor="middle" font-size="11" font-weight="500" fill="#0C447C">1.9599</text>
+    <text x="374" y="445" text-anchor="middle" font-size="11" font-weight="500" fill="#085041">2.4624</text>
+    <text x="442" y="445" text-anchor="middle" font-size="11" font-weight="500" fill="#085041">4.0198</text>
+
+    <text x="340" y="470" text-anchor="middle" font-size="12" fill="#444441">实部放前半、虚部放后半；输出 shape 不变 (B, N, S, D)</text>
+  </g>
+
+  <line x1="340" y1="474" x2="340" y2="490" stroke="#888780" stroke-width="1.5" marker-end="url(#arrowM)"/>
+
+  <g>
+    <rect x="40" y="494" width="600" height="168" rx="14" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+    <text x="60" y="516" font-size="13" font-weight="500" fill="#0C447C">④ attention 时的角度配对：q 的角 − k 的角 = 相对距离</text>
+
+    <text x="94" y="534" text-anchor="middle" font-size="11" fill="#444441">n=0</text>
+    <text x="144" y="534" text-anchor="middle" font-size="11" fill="#444441">n=1</text>
+    <text x="194" y="534" text-anchor="middle" font-size="11" fill="#444441">n=2</text>
+
+    <rect x="70" y="540" width="46" height="28" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+    <rect x="120" y="540" width="46" height="28" fill="#FAC775" stroke="#854F0B" stroke-width="0.5"/>
+    <rect x="170" y="540" width="46" height="28" fill="#EF9F27" stroke="#854F0B" stroke-width="0.5"/>
+    <rect x="70" y="572" width="46" height="28" fill="#FAC775" stroke="#854F0B" stroke-width="0.5"/>
+    <rect x="120" y="572" width="46" height="28" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+    <rect x="170" y="572" width="46" height="28" fill="#FAC775" stroke="#854F0B" stroke-width="0.5"/>
+    <rect x="70" y="604" width="46" height="28" fill="#EF9F27" stroke="#854F0B" stroke-width="0.5"/>
+    <rect x="120" y="604" width="46" height="28" fill="#FAC775" stroke="#854F0B" stroke-width="0.5"/>
+    <rect x="170" y="604" width="46" height="28" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+    <text x="93" y="558" text-anchor="middle" font-size="11" fill="#412402">30.0</text>
+    <text x="143" y="558" text-anchor="middle" font-size="11" fill="#412402">25.4</text>
+    <text x="193" y="558" text-anchor="middle" font-size="11" fill="#412402">15.8</text>
+    <text x="93" y="590" text-anchor="middle" font-size="11" fill="#412402">25.4</text>
+    <text x="143" y="590" text-anchor="middle" font-size="11" fill="#412402">30.0</text>
+    <text x="193" y="590" text-anchor="middle" font-size="11" fill="#412402">25.4</text>
+    <text x="93" y="622" text-anchor="middle" font-size="11" fill="#412402">15.8</text>
+    <text x="143" y="622" text-anchor="middle" font-size="11" fill="#412402">25.4</text>
+    <text x="193" y="622" text-anchor="middle" font-size="11" fill="#412402">30.0</text>
+    <text x="50" y="558" text-anchor="end" font-size="11" fill="#444441">m=0</text>
+    <text x="50" y="590" text-anchor="end" font-size="11" fill="#444441">m=1</text>
+    <text x="50" y="622" text-anchor="end" font-size="11" fill="#444441">m=2</text>
+    <text x="143" y="648" text-anchor="middle" font-size="11" fill="#444441">颜色 = 距离 δ=m−n：浅 δ=0，中 δ=1，深 δ=2</text>
+
+    <rect x="260" y="536" width="360" height="64" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+    <text x="440" y="560" text-anchor="middle" font-size="13" font-weight="500" fill="#412402">q 转了 mθ，k 转了 nθ，点积时角度相减：</text>
+    <text x="440" y="584" text-anchor="middle" font-size="13" font-weight="500" fill="#412402">分数 = 模长²·cos(mθ − nθ) = 模长²·cos((m−n)θ)</text>
+
+    <text x="440" y="622" text-anchor="middle" font-size="12" fill="#0C447C">S[1][0] = S[2][1] = 25.402：同为距离 1，分数相同</text>
+    <text x="440" y="644" text-anchor="middle" font-size="12" font-weight="500" fill="#0C447C">分数矩阵 shape (B, N, S, S)，沿对角线平移不变</text>
+  </g>
+
+  <line x1="340" y1="662" x2="340" y2="678" stroke="#888780" stroke-width="1.5" marker-end="url(#arrowM)"/>
+
+  <g>
+    <rect x="190" y="682" width="300" height="44" rx="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+    <text x="340" y="700" text-anchor="middle" font-size="13" font-weight="500" fill="#0C447C">⑤ softmax → 注意力权重</text>
+    <text x="340" y="718" text-anchor="middle" font-size="12" font-weight="500" fill="#0C447C">shape (B, N, S, S)</text>
+  </g>
+</svg>
